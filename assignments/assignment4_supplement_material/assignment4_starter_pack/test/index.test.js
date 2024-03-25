@@ -152,13 +152,14 @@ describe("Endpoint tests", () => {
 
   it("POST /api/v1/genres HTTP/1.1", async () => {
 
+    const hash = "HMAC d5951928a797e3de418978abeb1c4f036672aa63b3241843493bfae1c0e60923"
+
     const new_genre = {
-      "some_attribute": "string",
-      "some_number": "not_a_num"
+      "name": "string"
     }
 
-    const response = await request(app).post(`/api/v1/genres`).send(new_genre);
-    expect(response.statusCode).toBe(401, "Incorrect properties entered for new genre.");
+    const response = (await request(app).post(`/api/v1/genres`).set("Authorization", hash).send(new_genre));
+    expect(response.statusCode).toBe(201, "Sucessful interception.");
     expect(response.body).toBeTruthy();
 
   });
